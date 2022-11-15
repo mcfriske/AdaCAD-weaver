@@ -17,7 +17,7 @@ There are three core modules in this repo:
 - Mixer: contains all components, services, directives, etc. that are used to design and control the AdaCAD Mixer. This view supports more freeform and parametric experimentation on stitch structures.
 
 ## Developer Documentation 
-You can use view automatically generated documentation of our project at [http://adacad.unstable.design/AdaCAD/](http://adacad.unstable.design/AdaCAD/).
+You can view automatically generated documentation of our project at [http://adacad.unstable.design/AdaCAD/](http://adacad.unstable.design/AdaCAD/).
 
 ## Development Setup
 AdaCAD is built with Angular, a web development framework for progressive web apps. This project was generated with Angular CLI version 7.3.8.
