@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+
 import { SystemsService } from '../../../core/provider/systems.service';
 import { Bounds, Draft, DraftNode, Interlacement, LoomSettings, Point } from '../../../core/model/datatypes';
 import { getDraftName, isSet, isUp, warps, wefts } from '../../../core/model/drafts';
@@ -143,6 +145,8 @@ export class SubdraftComponent implements OnInit {
 
   draft_cell_size: number = 8;
 
+  send_pick_subscription: Subscription;
+
 
   constructor(private inks: InkService, 
     private layer: LayersService, 
@@ -223,11 +227,26 @@ export class SubdraftComponent implements OnInit {
     const scale = document.getElementById('scale-'+this.id);
   }
 
+  startSendingPicks() {
+    console.log("starting");
+    const draft = this.tree.getDraft(this.id);
+    
+    this.comms.pick_request$.subscribe((val) => {
+      if (val) {
+        this.sendPick(this.pick_num);
+        this.pick_num = (this.pick_num + 1) % wefts(draft.drawdown);
+      } 
+    })
+
+    this.sendPick(0);
+    console.log("sent first pick");
+  }
+
   sendPick(ndx: number){
     console.log("SENDING PICK ", ndx)
     const draft = this.tree.getDraft(this.id);
-    if(ndx < 0) ndx = 0;
-    if(ndx > wefts(draft.drawdown)) ndx = ndx % wefts(draft.drawdown);
+    // if(ndx < 0) ndx = 0;
+    // if(ndx > wefts(draft.drawdown)) ndx = ndx % wefts(draft.drawdown);
 
     let rowSeq = new Sequence.OneD().import( draft.drawdown[ndx]).resize(this.comms.pick_size);
    
@@ -237,7 +256,6 @@ export class SubdraftComponent implements OnInit {
       if(el == 2) acc = acc.concat('0')
       return acc;
     }, '');
-    
 
     this.comms.sendPickData(seq_num).then(response => {
       if(response){
@@ -248,6 +266,11 @@ export class SubdraftComponent implements OnInit {
 
       }
     })
+  }
+
+  stopSendingPicks() {
+    this.comms.pick_request$.unsubscribe();
+    this.comms.stopWeaving();
   }
 
 
@@ -772,7 +795,7 @@ export class SubdraftComponent implements OnInit {
         
         this.tree.setDraftClean(this.id);
 
-        if(this.comms.has_active_loom && this.show_pick){
+        if(this.comms.is_weaving && this.show_pick){
           console.log("DRAWING PICK SEND")
           this.drawPickSent(cell_size, this.pick_num, warps(draft.drawdown));
         }
