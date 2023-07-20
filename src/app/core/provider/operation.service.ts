@@ -41,6 +41,7 @@ import { set } from '../operations/set/set';
 import { shaded_satin } from '../operations/shaded_satin/shaded_satin';
 import { shiftx } from '../operations/shiftx/shiftx';
 import { shifty } from '../operations/shifty/shifty';
+import { sierpinski } from '../operations/sierpinski/sierpinski';
 import { slope } from '../operations/slope/slope';
 import { spliceinwarps } from '../operations/spliceinwarps/spliceinwarps';
 import { splicein } from '../operations/spliceinwefts/spliceinwefts';
@@ -127,6 +128,7 @@ export class OperationService {
     this.ops.push(flipy);
     this.ops.push(shiftx);
     this.ops.push(shifty);
+    this.ops.push(sierpinski);
     this.ops.push(layer);
     this.ops.push(selvedge);
     this.ops.push(bindweftfloats);

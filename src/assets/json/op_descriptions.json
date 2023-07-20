@@ -67,6 +67,12 @@
             "description": "Generates an output that is shifted to the left and top by the number of warp ends and weft pics specified in the parameters.",
             "application": "Creates a version of a draft that is structurally identical, but has the placement of interlacements fine tuned in relation to other structures" 
         },
+	         {
+            "name":"sierpinski",
+            "displayname": "sierpinski",
+            "description": "Make a sierpinski square",
+            "application": "Make a sierpinski square (fun)" 
+        },
         {
             "name":"slope",
             "displayname": "slope",
