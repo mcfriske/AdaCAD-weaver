@@ -16,7 +16,7 @@ import utilInstance from '../model/util';
 export class SendpickService {
   
   pick_request$ = new Subject<number>();
-  loom_id = 221245;//utilInstance.generateId(4);
+  loom_id = utilInstance.generateId(4);
   pick_size = 360;
   loom_name = '';
   has_active_loom = false;
@@ -33,9 +33,8 @@ export class SendpickService {
     onValue(pick_req_ref, (snapshot) => {
       const data = snapshot.val();
       this.afterPickRequest(data);
-      console.log("pick req ", data);
+      // console.log("pick req ", data);
     });
-    
   }
   
   updateLoomSize(size: number){
@@ -155,15 +154,12 @@ export class SendpickService {
   afterPickRequest(db_val: boolean){
     //listen for a pick request. //boolean
     
-    if(db_val == true){
+    if (db_val == true) {
       //request increment viewer
       console.log("pick request subscription");
       
-      // const db = getDatabase();
-      // const ref = fbref(db, 'looms/'+this.loom_id);
-      // update(ref,{"pick-req": false});
       this.pick_request$.next(1);
-    }else{
+    } else {
       
     }
     

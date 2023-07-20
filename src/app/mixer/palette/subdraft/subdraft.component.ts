@@ -231,7 +231,7 @@ export class SubdraftComponent implements OnInit {
     console.log("starting");
     const draft = this.tree.getDraft(this.id);
     
-    this.comms.pick_request$.subscribe((val) => {
+    this.send_pick_subscription = this.comms.pick_request$.subscribe((val) => {
       if (val) {
         this.sendPick(this.pick_num);
         this.pick_num = (this.pick_num + 1) % wefts(draft.drawdown);
@@ -269,7 +269,9 @@ export class SubdraftComponent implements OnInit {
   }
 
   stopSendingPicks() {
-    this.comms.pick_request$.unsubscribe();
+    // stop listening to pick requests
+    this.send_pick_subscription.unsubscribe();
+    // set start-stop to false
     this.comms.stopWeaving();
   }
 
@@ -279,7 +281,6 @@ export class SubdraftComponent implements OnInit {
  * @returns 
  */
   rescale() : Promise<boolean>{
-
 
     if(this.draft === null){
       return Promise.reject("draft is null on draft rescale");
