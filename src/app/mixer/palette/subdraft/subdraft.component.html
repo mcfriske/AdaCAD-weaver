@@ -122,14 +122,14 @@ class="subdraft-parent-container selectable-{{!disable_drag}}"
 			<div *ngIf="comms.has_active_loom" class="player">
 				<input type="number" color="accent" [(ngModel)]="pick_num" placeholder="pick_num">
 
-				<ng-container *ngIf="comms.is_weaving; else">
+				<ng-container *ngIf="comms.is_weaving">
 					<button mat-icon-button
 					class="fa-solid fa-pause"
 					matTooltip ="stop sending picks"
 					(click)="stopSendingPicks()">
 					</button>
 				</ng-container>
-				<ng-container #else>
+				<ng-container *ngIf="!comms.is_weaving">
 					<button mat-icon-button
 					class="fa-solid fa-play"
 					matTooltip ="start sending picks"
