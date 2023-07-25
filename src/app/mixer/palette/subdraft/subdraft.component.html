@@ -136,6 +136,12 @@ class="subdraft-parent-container selectable-{{!disable_drag}}"
 					(click)="startSendingPicks()">
 					</button>
 				</ng-container>
+
+				<button mat-icon-button
+					class="fa-solid fa-share"
+					matTooltip = "manually send this pick"
+					(click) = "sendPick(pick_num)"
+				></button>
 	
 				
 			</div>
