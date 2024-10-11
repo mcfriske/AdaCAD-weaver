@@ -60,7 +60,8 @@ import { OperationService } from './provider/operation.service';
 
 
 
-@NgModule({ declarations: [
+@NgModule(
+    { declarations: [
         UploadFormComponent,
         InitModal,
         MaterialModal,
