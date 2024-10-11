@@ -1,7 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -60,45 +60,7 @@ import { OperationService } from './provider/operation.service';
 
 
 
-@NgModule({
-    imports: [
-        CommonModule,
-        BrowserModule,
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatSlideToggleModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        MatDividerModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSidenavModule,
-        MatSliderModule,
-        MatTabsModule,
-        MatToolbarModule,
-        MatTooltipModule,
-        MatTreeModule,
-        ColorPickerModule,
-        MatChipsModule,
-        MatSnackBarModule,
-        ScrollingModule,
-        DragDropModule,
-        MatProgressBarModule,
-        MatBadgeModule,
-        ViewadjustComponent
-        ],
-    declarations: [
+@NgModule({ declarations: [
         UploadFormComponent,
         InitModal,
         MaterialModal,
@@ -113,18 +75,6 @@ import { OperationService } from './provider/operation.service';
         WelcomeComponent,
         SelectionComponent,
         DraftRenderingComponent
-    ],
-    providers: [
-        UploadService,
-        FileService,
-        VaeService,
-        PatternfinderService,
-        AuthService,
-        RenderService,
-        ViewerService,
-        ViewadjustService,
-        MediaService,
-        OperationService
     ],
     exports: [
         CommonModule,
@@ -170,6 +120,50 @@ import { OperationService } from './provider/operation.service';
         DraftRenderingComponent,
         SelectionComponent,
         ViewadjustComponent
-             ]
-})
+    ], imports: [CommonModule,
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatSlideToggleModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatDividerModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        MatMenuModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSliderModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatTreeModule,
+        ColorPickerModule,
+        MatChipsModule,
+        MatSnackBarModule,
+        ScrollingModule,
+        DragDropModule,
+        MatProgressBarModule,
+        MatBadgeModule,
+        ViewadjustComponent], providers: [
+        UploadService,
+        FileService,
+        VaeService,
+        PatternfinderService,
+        AuthService,
+        RenderService,
+        ViewerService,
+        ViewadjustService,
+        MediaService,
+        OperationService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class CoreModule { }

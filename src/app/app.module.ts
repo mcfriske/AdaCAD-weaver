@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -22,37 +22,30 @@ import { EditorModule } from './editor/editor.module';
 import { ViewerModule } from './viewer/viewer.module';
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
+@NgModule({ declarations: [
+        AppComponent,
     ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    CoreModule,
-    EditorModule,
-    MixerModule,
-    ViewerModule,
-    BrowserAnimationsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-    provideAnalytics(() => getAnalytics()),
-    provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase()),
-    provideFirestore(() => getFirestore()),
-    provideFunctions(() => getFunctions()),
-    provideMessaging(() => getMessaging()),
-    providePerformance(() => getPerformance()),
-    provideRemoteConfig(() => getRemoteConfig()),
-    provideStorage(() => getStorage())],
-    
-  providers: [{ 
-    provide: HAMMER_GESTURE_CONFIG, 
-    useClass: HammerGestureConfig, 
-  }],
-  bootstrap: [AppComponent]
-})
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        CoreModule,
+        EditorModule,
+        MixerModule,
+        ViewerModule,
+        BrowserAnimationsModule,
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideFirestore(() => getFirestore()),
+        provideAnalytics(() => getAnalytics()),
+        provideAuth(() => getAuth()),
+        provideDatabase(() => getDatabase()),
+        provideFirestore(() => getFirestore()),
+        provideFunctions(() => getFunctions()),
+        provideMessaging(() => getMessaging()),
+        providePerformance(() => getPerformance()),
+        provideRemoteConfig(() => getRemoteConfig()),
+        provideStorage(() => getStorage())], providers: [{
+            provide: HAMMER_GESTURE_CONFIG,
+            useClass: HammerGestureConfig,
+        }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { 
   
 }
