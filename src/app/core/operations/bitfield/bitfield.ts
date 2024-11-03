@@ -29,7 +29,7 @@ const wefts:NumParam =
 const f:StringParam =  
     {name: 'bitfield function',
     type: 'string',
-    regex: /^[0-9!<>&^\|xy()+-\\ \\%]+$/,
+    regex: /^[0-9!<>&^\|xy()+-\\*\/\\ \\%]+$/,
     error: 'Invalid - can only contain 0-9, x, y, spaces and the following symbols: <>&^|xy()+-%',
     value: "(x ^ y) % 3",
     dx: "JavaScript expression that uses x/y values to return a boolean value for each cell"
