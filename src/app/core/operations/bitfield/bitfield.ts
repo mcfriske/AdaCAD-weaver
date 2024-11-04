@@ -2,7 +2,7 @@ import { NumParam, StringParam, OpParamVal, OpInput, Operation } from "../../mod
 import { getOpParamValById } from "../../model/operations";
 import { Sequence } from "../../model/sequence";
 import { initDraftFromDrawdown } from "../../model/drafts";
-
+import { evaluate } from 'mathjs';
 
 const name = "bitfield";
 const old_names = [];
@@ -29,10 +29,10 @@ const wefts:NumParam =
 const f:StringParam =  
     {name: 'bitfield function',
     type: 'string',
-    regex: /^[0-9!<>&^\|xy()+-\\*\/\\ \\%]+$/,
-    error: 'Invalid - can only contain 0-9, x, y, spaces and the following symbols: <>&^|xy()+-%',
+    regex: /.*/,
+    error: 'Invalid expression',
     value: "(x ^ y) % 3",
-    dx: "JavaScript expression that uses x/y values to return a boolean value for each cell"
+    dx: "Maths expression that uses x/y values to return a boolean value for each cell, to make 'bitfield' patterns"
 };
 
 const params = [warps, wefts, f];
@@ -42,22 +42,24 @@ const inlets = [];
 const perform = (param_vals: Array<OpParamVal>, op_inputs: Array<OpInput>) => {
     const num_warps: number = getOpParamValById(0, param_vals);
     const num_wefts: number = getOpParamValById(1, param_vals);
-    const script: string = getOpParamValById(2, param_vals);
+    let script: string = getOpParamValById(2, param_vals);
 
-    // This should already have been checked but probably best to check here again in case
-    // a bad string could have been injected somewhere..
-    if (script.match(f.regex)) {
-        let func = eval('(x, y) => '.concat(script));
-        let pattern = new Sequence.TwoD();
-        for (let weft = 0; weft < num_wefts; ++weft) {
-            const row = new Sequence.OneD();
-            for (let warp = 0; warp < num_warps; ++warp) {
-                row.push(!! func(warp, weft));
-            }
-            pattern.pushWeftSequence(row.val());
+    // Mathjs uses ^ for pow, and ^| for bitwise xor
+    // This replaces ^ with ^|, so folks don't have to type the |
+    script = script.replace(/\^(?!\|)/, '^|');
+
+    // Evaluate as an expression with mathjs. This could just be done with a javascript eval(), but this is more secure.
+    let func = evaluate('f(x, y) = '.concat(script));
+
+    let pattern = new Sequence.TwoD();
+    for (let weft = 0; weft < num_wefts; ++weft) {
+        const row = new Sequence.OneD();
+        for (let warp = 0; warp < num_warps; ++warp) {
+            row.push(!! func(warp, weft));
         }
-        return Promise.resolve([initDraftFromDrawdown(pattern.export())]);
+        pattern.pushWeftSequence(row.val());
     }
+    return Promise.resolve([initDraftFromDrawdown(pattern.export())]);
 }
 
 const generateName = (param_vals: Array<OpParamVal>, op_inputs: Array<OpInput>) : string => {
