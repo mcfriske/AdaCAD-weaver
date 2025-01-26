@@ -230,9 +230,17 @@
         <mat-toolbar class="footer">
           
           <div class="footer-left">
+            <button 
+            [class.hide]="selected_editor_mode !== 'mixer'" 
+            [class.show]="selected_editor_mode === 'mixer'" 
+            mat-icon-button 
+            matTooltip="zoom to fit" 
+            (click)="zoomToFit()">
+              <i class="fa-solid fa-arrows-to-eye"></i>
+            </button>
+
       
-      
-            <button mat-icon-button (click)="zoomOut()"><i class="fas fa-search-minus"></i></button>         
+            <button mat-icon-button matTooltip="zoom out" (click)="zoomOut()"><i class="fas fa-search-minus"></i></button>         
            
             <mat-slider 
               min="0"
@@ -243,9 +251,8 @@
             </mat-slider>
            
         
-            <button  mat-icon-button (click)="zoomIn()"><i class="fas fa-search-plus"></i></button>
+            <button  mat-icon-button matTooltip="zoom in"  (click)="zoomIn()"><i class="fas fa-search-plus"></i></button>
             
-            <button mat-icon-button (click)="zoomToFit()"><i class="fa-solid fa-arrows-to-eye"></i></button>
             
             
             <button  

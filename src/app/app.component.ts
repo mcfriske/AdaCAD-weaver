@@ -72,12 +72,6 @@ export class AppComponent implements OnInit{
   loading: boolean;
 
   selected_origin: number;
-  
-  ui = {
-    main: 'mixer',
-    fullscreen: false,
-    id: -1
-  };
 
   views = [];
 
